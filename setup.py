@@ -11,7 +11,7 @@ SRC_REPO = 'mlProject'
 AUTHOR_EMAIL = 'ashaythamankar@gmail.com'
 
 setuptools.setup(
-    name=REPO_NAME,
+    name=SRC_REPO,
     version=__version__,
     author=AUTHOR_FULL_NAME,
     author_email=AUTHOR_EMAIL,
@@ -19,6 +19,6 @@ setuptools.setup(
     long_description=long_description,
     long_description_content = 'text/markdown',
     url=f'https://github.com/{AUTHOR_FULL_NAME}/{REPO_NAME}',
-    project_dir = {"": 'src'},
+    package_dir = {"": 'src'},
     packages=setuptools.find_packages(where='src')
 )
