@@ -6,4 +6,14 @@ data_ingestion:
   local_data_file: artifacts/data_ingestion/data.zip
   unzip_dir: artifacts/data_ingestion
 
+
+data_validation:
+  root_dir: artifacts/data_validation
+  unzip_data_dir: artifacts/data_ingestion/winequality-red.csv
+  STATUS_FILE: artifacts/data_validation/staus.txt
+
+data_transformation:
+  root_dir: artifacts/data_transformation
+  data_path: artifacts/data_ingestion/winequality-red.csv
+
   
