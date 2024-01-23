@@ -1,7 +1,6 @@
 params:
   Linear Regression:
     fit_intercept: [True, False]
-    normalize: [True, False]
     copy_X: [True, False]
     n_jobs: [-1, 1, None]
   K-Neighbors Regressor: 
@@ -13,7 +12,7 @@ params:
     metric: ['minkowski', 'euclidean', 'manhattan']
   Decision Tree:
       criterion: ['squared_error', 'friedman_mse', 'absolute_error', 'poisson']
-  Random Forest:
+  Random Forest Regressor:
       n_estimators: [8, 16, 32, 64, 128, 256]
   XGBRegressor:
       learning_rate: [0.1, 0.01, 0.05, 0.001]
