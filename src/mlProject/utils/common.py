@@ -9,6 +9,14 @@ from box import ConfigBox
 from pathlib import Path
 from typing import Any
 from sklearn.metrics import r2_score
+from sklearn.model_selection import RandomizedSearchCV
+
+from sklearn.linear_model import LinearRegression
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, GradientBoostingRegressor
+from xgboost import XGBRegressor
+from catboost import CatBoostRegressor
 
 
 @ensure_annotations
@@ -60,13 +68,26 @@ def get_size(path: Path) -> str:
     return f"~ {size_in_KB} KB"
 
 @ensure_annotations
-def evaluate_models(x_train, x_test, y_train, y_test, models: ConfigBox) -> dict:
+def evaluate_models(x_train, x_test, y_train, y_test, models: ConfigBox, params) -> tuple:
     try:
         report = {}
         logger.info(f"Entered to model evaluation list")
 
+        temp_score = -100 # to store the r2 score
+        temp_model = None
+
         for i in range(len(list(models))):
-            model = list(models.values())[i]
+            model = eval(list(models.values())[i])
+            
+            param = params[list(models.keys())[i]]
+
+            rs = RandomizedSearchCV(model, param)
+
+            rs.fit(x_train, y_train)
+
+            # model.fit(x_train, y_train)
+
+            model.set_params(**rs.best_params_)
             model.fit(x_train, y_train)
 
             y_test_pred = model.predict(x_test)
@@ -74,12 +95,18 @@ def evaluate_models(x_train, x_test, y_train, y_test, models: ConfigBox) -> dict
             test_model_r2_score = r2_score(y_test, y_test_pred)
 
             report[list(models.keys())[i]] = test_model_r2_score
+            # report["model_place"] = model 
 
-        return report
+            if test_model_r2_score > temp_score:
+                temp_score = test_model_r2_score
+                temp_model = model
+
+        
+
+        return report, temp_score, temp_model
 
     except Exception as e:
         raise e
-
 
 
 

@@ -12,11 +12,13 @@ class ConfigurationManager:
             self,
             config_filename = CONFIG_FILE_PATH,
             params_filename = PARAMS_FILE_PATH,
-            schema_filename = SCHEME_FILE_PATH
+            schema_filename = SCHEME_FILE_PATH,
+            model_p_filepath = (MODEL_P_FILE_PATH)
     ):
         self.config = read_yaml(config_filename)
         self.params = read_yaml(params_filename)
         self.schema = read_yaml(schema_filename)
+        self.model_p = read_yaml(model_p_filepath)
 
         create_directories([self.config.artifacts_root])
 
@@ -63,8 +65,10 @@ class ConfigurationManager:
     def get_model_trainer_config(self) -> ModelTrainerConfig:
 
         config = self.config.model_trainer
-        params = self.params.ElasticNet
+        # params = self.params.ElasticNet
         schema = self.schema.TARGET_COLUMN
+        model = self.params.models
+        model_p = self.model_p.params
 
         create_directories([config.root_dir])
 
@@ -73,16 +77,21 @@ class ConfigurationManager:
             train_data_path=config.train_data_path,
             test_data_path=config.test_data_path,
             model_name=config.model_name,
-            alpha=params.alpha,
-            l1_ration=params.l1_ratio,
-            target_column=schema.name
+            # alpha=params.alpha,
+            # l1_ration=params.l1_ratio,
+            target_column=schema.name,
+            model_to_loop = model,
+            model_params = model_p
         )
 
         return model_trainer_config
+
+    
+    
     
     def get_model_evaluation_config(self) -> ModelEvaluationConfig:
         config = self.config.model_evaluation
-        params = self.params.ElasticNet
+        params = self.params.models
         schema = self.schema.TARGET_COLUMN
 
         create_directories([config.root_dir])

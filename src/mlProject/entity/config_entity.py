@@ -26,9 +26,11 @@ class ModelTrainerConfig:
     train_data_path: Path
     test_data_path: Path
     model_name: str
-    alpha: float
-    l1_ration: float
+    # alpha: float
+    # l1_ration: float
     target_column: str
+    model_to_loop: str
+    model_params: str
 
 @dataclass(frozen=True)
 class ModelEvaluationConfig:
