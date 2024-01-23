@@ -8,6 +8,7 @@ from ensure import ensure_annotations
 from box import ConfigBox
 from pathlib import Path
 from typing import Any
+from sklearn.metrics import r2_score
 
 
 @ensure_annotations
@@ -57,6 +58,30 @@ def load_bin(path: Path) -> Any:
 def get_size(path: Path) -> str:
     size_in_KB = round(os.path.getsize(path))
     return f"~ {size_in_KB} KB"
+
+@ensure_annotations
+def evaluate_models(x_train, x_test, y_train, y_test, models: ConfigBox) -> dict:
+    try:
+        report = {}
+        logger.info(f"Entered to model evaluation list")
+
+        for i in range(len(list(models))):
+            model = list(models.values())[i]
+            model.fit(x_train, y_train)
+
+            y_test_pred = model.predict(x_test)
+
+            test_model_r2_score = r2_score(y_test, y_test_pred)
+
+            report[list(models.keys())[i]] = test_model_r2_score
+
+        return report
+
+    except Exception as e:
+        raise e
+
+
+
 
 
 
