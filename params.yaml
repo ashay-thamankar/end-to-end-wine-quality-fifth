@@ -11,3 +11,4 @@ models:
   CatBoosting Regressor: CatBoostRegressor(verbose=False)
   AdaBoost Regressor: AdaBoostRegressor()
   Gradient Boosting: GradientBoostingRegressor()
+  ElasticNet: ElasticNet()

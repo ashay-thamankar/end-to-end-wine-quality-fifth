@@ -5,7 +5,7 @@ from mlProject.config.configuration import ModelTrainerConfig
 import os
 from mlProject import *
 from mlProject.utils.common import evaluate_models
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, ElasticNet
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, GradientBoostingRegressor
